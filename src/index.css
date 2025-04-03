@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #44444C;
+  --color-primary-light: #8C8C8C;
+  --color-primary-dark: #0B0909;
+  --color-secondary: #D6D6D6;
+  --color-accent: #D6D6D6;
+}
+
+@layer base {
+  html {
+    font-family: 'Roboto', sans-serif;
+  }
+
+  body {
+    @apply bg-primary;
+  }
+
+}
+
+@layer components {
+  .btn {
+    @apply bg-primary-light text-primary-dark font-bold py-2 px-4 rounded;
+  }
+
+  .btn:hover {
+    @apply bg-primary-dark text-accent;
+  }
+
+  tr {
+    @apply border-b border-primary-light;
+  }
+
+  td {
+    @apply p-2;
+  }
+
+  .building-table {
+    @apply w-full table-auto mt-4;
+  }
+
+  .fixed-col {
+    @apply w-20 text-right;
+  }
+}
