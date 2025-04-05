@@ -1,7 +1,7 @@
-import { GameBalance } from '../gameBalance.js';
-import { EraManager } from './EraManager.js';
-import { useGameStore } from '../../stores/useGameStore.jsx';
-import { Factory, Housing, Seller } from '../buildings/index.js';
+import { GameBalance } from '@game/gameBalance';
+import { EraManager, EconomyManager } from '@managers/index';
+import { useGameStore } from '@stores/useGameStore';
+import { Factory, Housing, Seller } from '@game/buildings/index';
 
 export class BuildingManager {
     static getBuildingConfig(type, key) {
@@ -24,12 +24,21 @@ export class BuildingManager {
         return GameBalance.buildings.map(building => building.keyName);
     }
 
-
-
-
     static getBuildingCost(type, key) {
         const building = this.getBuildingConfig(type, key);
         const count = useGameStore.getState().ownedBuildings[type][key] || 0;
         return Math.round(building.cost * Math.pow(GameBalance.priceGrowthRate, count));
+    }
+
+    static purchaseBuilding(type, key) {
+        const price = this.getBuildingCost(type, key);
+        const success = EconomyManager.spendMoney(price);
+
+        if (success) {
+            useGameStore.getState().addBuilding(type, key);
+            return true;
+        }
+
+        return false;
     }
 }

@@ -1,0 +1,35 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@/*": [
+                "src/*"
+            ],
+            "@stores/*": [
+                "src/stores/*"
+            ],
+            "@managers/*": [
+                "src/game/managers/*"
+            ],
+            "@components/*": [
+                "src/components/*"
+            ],
+            "@subscriptions/*": [
+                "src/subscriptions/*"
+            ],
+            "@core/*": [
+                "src/core/*"
+            ],
+            "@pages/*": [
+                "src/pages/*"
+            ],
+            "@game/*": [
+                "src/game/*"
+            ]
+        }
+    },
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}

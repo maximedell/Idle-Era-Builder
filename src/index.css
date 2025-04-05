@@ -1,23 +1,46 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #44444C;
+  --color-primary: #2A2A2A;
   --color-primary-light: #8C8C8C;
   --color-primary-dark: #0B0909;
-  --color-secondary: #D6D6D6;
-  --color-accent: #D6D6D6;
+  --color-secondary: #44444C;
+  --color-accent: #EEEEEE;
 }
 
 @layer base {
   html {
     font-family: 'Roboto', sans-serif;
+    max-width: 100vw;
   }
 
   body {
-    @apply bg-primary;
+    @apply bg-primary text-accent;
+    /* Empêche le débordement horizontal */
   }
 
+  tr {
+    @apply border-b border-primary-light;
+  }
+
+  td {
+    @apply p-2 text-left text-accent;
+  }
+
+  th {
+    @apply p-2 py-2 font-bold text-primary-light text-left;
+  }
+
+  h2 {
+    @apply text-2xl font-bold text-primary-light;
+  }
+
+  button {
+    @apply cursor-pointer bg-primary-light text-primary-dark font-bold py-2 px-4 rounded;
+  }
 }
+
+
 
 @layer components {
   .btn {
@@ -28,19 +51,50 @@
     @apply bg-primary-dark text-accent;
   }
 
-  tr {
-    @apply border-b border-primary-light;
-  }
-
-  td {
-    @apply p-2;
-  }
-
   .building-table {
     @apply w-full table-auto mt-4;
   }
 
   .fixed-col {
-    @apply w-20 text-right;
+    @apply text-right flex justify-end;
   }
+
+  .list-container {
+    @apply flex flex-col w-full border border-primary-light rounded-xs shadow-lg p-5 mt-5;
+  }
+
+
+
+  .main-list {
+    @apply w-full;
+  }
+
+  .main-list-header {
+    @apply grid grid-cols-9 p-2 py-2 font-bold text-primary-light text-left;
+  }
+
+  .main-list-header-element {
+    @apply text-right;
+  }
+
+  .main-list-row {
+    @apply grid grid-cols-9 border-b border-primary-light bg-transparent z-10;
+  }
+
+  .main-list-cell {
+    @apply p-2 text-right text-accent pb-2.5;
+  }
+
+  .main-list-name {
+    @apply text-left col-span-3;
+  }
+
+  .progress-bar {
+    @apply bg-blue-600 h-1.5 z-0 relative bottom-2;
+  }
+
+  .progress-bar-container {
+    @apply bg-transparent flex w-full;
+  }
+
 }

@@ -7,7 +7,7 @@ export class Seller extends Building {
         this.populationRequired = config.populationRequired || 0;
         this.energyRequired = config.energyRequired || 0;
         this.assignedPopulation = 0;
-        this.resource = config.resource || null;
+        this.resources = config.resources || null;
     }
 
 

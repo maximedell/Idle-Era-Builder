@@ -1,5 +1,5 @@
-import { useGameStore } from "../stores/useGameStore";
-import { HousingManager } from "../game/managers/HousingManager";
+import { useGameStore } from '@stores/useGameStore';
+import { HousingManager } from '@managers/HousingManager';
 
 export function HousingRow({ keyName }) {
     const housing = HousingManager.getHousing(keyName);
@@ -7,33 +7,28 @@ export function HousingRow({ keyName }) {
     const price = HousingManager.getBuildingCost("housing", keyName);
 
     const handleClick = () => {
-        const store = useGameStore.getState();
-        if (store.spendMoney(price)) {
-            store.addBuilding("housing", keyName);
-        }
+        HousingManager.purchaseBuilding(keyName);
     };
     return (
-        <tr>
-            <td>
+        <div className="main-list-row">
+            <div className="main-list-cell main-list-name col-span-5">
                 {housing.name}
-            </td>
-            <td>
+            </div>
 
-            </td>
-            <td>
+            <div className="main-list-cell">
                 {housing.incomePerPerson * count > 0 ? (housing.incomePerPerson * count) : (housing.incomePerPerson)}/s
-            </td>
-            <td className="fixed-col">
-                {housing.population * count}
-            </td>
-            <td className="fixed-col">
+            </div>
+            <div className="main-list-cell fixed-col">
+                {housing.population * count > 0 ? (housing.population * count) : (housing.population)}
+            </div>
+            <div className="main-list-cell fixed-col">
                 {count}
-            </td>
-            <td className="fixed-col">
+            </div>
+            <div className="main-list-cell fixed-col">
                 <button onClick={handleClick} className="btn btn-sm btn-outline-light">
                     {price}$
                 </button>
-            </td>
-        </tr>
+            </div>
+        </div>
     );
 }

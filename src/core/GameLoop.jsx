@@ -1,18 +1,10 @@
-import { useEffect, useRef } from "react";
-import { useGameStore } from "../stores/useGameStore";
-
-// Tu peux créer des fonctions séparées si tu préfères les extraire
-function applyPassiveIncome(delta) {
-    const income = useGameStore.getState().passiveIncome;
-    useGameStore.getState().addMoney(income * delta);
-}
-
-function updateProduction(delta) {
-    // Ex : appelle ProductionManager ici
-}
+import { useEffect, useRef } from 'react';
+import { useGameStore } from '@stores/useGameStore';
+import { applyTick, applySecond } from '@core/gameTick';
 
 export function GameLoop() {
     const lastUpdate = useRef(performance.now());
+    console.log("[GameLoop] Game loop started");
 
     useEffect(() => {
         let frameId;
@@ -20,21 +12,34 @@ export function GameLoop() {
         const loop = (now) => {
             const delta = (now - lastUpdate.current) / 1000;
             lastUpdate.current = now;
+            const currentBuffer = useGameStore.getState().productionBuffer || 0;
+            const newBuffer = currentBuffer + delta;
 
-            // 🧠 Logique du jeu à chaque tick
-            applyPassiveIncome(delta);
-            updateProduction(delta);
+            let leftover = newBuffer; // ✅ Initialisation par défaut
 
-            // 🔁 Boucle continue
+            applyTick(delta);
+            if (newBuffer >= 1) {
+                const ticks = Math.floor(newBuffer);
+                leftover = newBuffer - ticks;
+
+                for (let i = 0; i < ticks; i++) {
+                    applySecond();
+                }
+            }
+
+            // ✅ Toujours update le buffer (même s’il n’a pas encore atteint 1s)
+            useGameStore.setState(state => ({
+                ...state,
+                productionBuffer: leftover
+            }));
+
             frameId = requestAnimationFrame(loop);
         };
 
-        // ✅ Démarrer la boucle
         frameId = requestAnimationFrame(loop);
 
-        // 🧹 Nettoyage à la destruction
         return () => cancelAnimationFrame(frameId);
     }, []);
 
-    return null; // Ce composant est "invisible" à l'écran
+    return null;
 }
